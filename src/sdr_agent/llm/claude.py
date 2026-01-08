@@ -1,16 +1,9 @@
 """Claude API integration for SDR Agent."""
 
-from typing import Any, Optional
+from typing import Any
 
 import anthropic
 from pydantic import BaseModel
-
-
-class Message(BaseModel):
-    """A conversation message."""
-
-    role: str  # "user" or "assistant"
-    content: str
 
 
 class ToolCall(BaseModel):
@@ -27,6 +20,7 @@ class ClaudeResponse(BaseModel):
     content: str
     tool_calls: list[ToolCall] = []
     stop_reason: str
+    raw_content: list[Any] = []
 
 
 class ClaudeClient:
@@ -41,7 +35,7 @@ class ClaudeClient:
         self.client = anthropic.Anthropic(api_key=api_key)
         self.model = model
         self.max_tokens = max_tokens
-        self.conversation: list[Message] = []
+        self.messages: list[dict[str, Any]] = []
 
     def _build_tools(self) -> list[dict[str, Any]]:
         """Build tool definitions for the agent."""
@@ -107,36 +101,16 @@ class ClaudeClient:
             },
         ]
 
-    def chat(
-        self,
-        user_message: str,
-        system_prompt: str,
-        tools_enabled: bool = True,
-    ) -> ClaudeResponse:
-        """Send a message and get a response."""
-        self.conversation.append(Message(role="user", content=user_message))
-
-        messages = [{"role": m.role, "content": m.content} for m in self.conversation]
-
-        kwargs: dict[str, Any] = {
-            "model": self.model,
-            "max_tokens": self.max_tokens,
-            "system": system_prompt,
-            "messages": messages,
-        }
-
-        if tools_enabled:
-            kwargs["tools"] = self._build_tools()
-
-        response = self.client.messages.create(**kwargs)
-
-        # Extract text content and tool calls
+    def _parse_response(self, response) -> ClaudeResponse:
+        """Parse API response into ClaudeResponse."""
         text_content = ""
         tool_calls = []
+        raw_content = []
 
         for block in response.content:
             if block.type == "text":
                 text_content += block.text
+                raw_content.append({"type": "text", "text": block.text})
             elif block.type == "tool_use":
                 tool_calls.append(
                     ToolCall(
@@ -145,25 +119,47 @@ class ClaudeClient:
                         input=block.input,
                     )
                 )
-
-        # Add assistant response to conversation
-        if text_content:
-            self.conversation.append(Message(role="assistant", content=text_content))
+                raw_content.append({
+                    "type": "tool_use",
+                    "id": block.id,
+                    "name": block.name,
+                    "input": block.input,
+                })
 
         return ClaudeResponse(
             content=text_content,
             tool_calls=tool_calls,
             stop_reason=response.stop_reason,
+            raw_content=raw_content,
         )
 
-    def add_tool_result(self, tool_use_id: str, result: str) -> None:
-        """Add a tool result to the conversation."""
-        self.conversation.append(
-            Message(
-                role="user",
-                content=f'<tool_result tool_use_id="{tool_use_id}">{result}</tool_result>',
-            )
-        )
+    def chat(
+        self,
+        user_message: str,
+        system_prompt: str,
+        tools_enabled: bool = True,
+    ) -> ClaudeResponse:
+        """Send a message and get a response."""
+        # Add user message
+        self.messages.append({"role": "user", "content": user_message})
+
+        kwargs: dict[str, Any] = {
+            "model": self.model,
+            "max_tokens": self.max_tokens,
+            "system": system_prompt,
+            "messages": self.messages,
+        }
+
+        if tools_enabled:
+            kwargs["tools"] = self._build_tools()
+
+        response = self.client.messages.create(**kwargs)
+        parsed = self._parse_response(response)
+
+        # Store assistant response with full content (including tool_use blocks)
+        self.messages.append({"role": "assistant", "content": parsed.raw_content})
+
+        return parsed
 
     def continue_with_tool_results(
         self,
@@ -182,43 +178,24 @@ class ClaudeClient:
                 }
             )
 
-        # Build messages including the tool results
-        messages = [{"role": m.role, "content": m.content} for m in self.conversation]
-        messages.append({"role": "user", "content": tool_result_content})
+        # Add tool results as user message
+        self.messages.append({"role": "user", "content": tool_result_content})
 
         response = self.client.messages.create(
             model=self.model,
             max_tokens=self.max_tokens,
             system=system_prompt,
-            messages=messages,
+            messages=self.messages,
             tools=self._build_tools(),
         )
 
-        # Extract response
-        text_content = ""
-        tool_calls = []
+        parsed = self._parse_response(response)
 
-        for block in response.content:
-            if block.type == "text":
-                text_content += block.text
-            elif block.type == "tool_use":
-                tool_calls.append(
-                    ToolCall(
-                        id=block.id,
-                        name=block.name,
-                        input=block.input,
-                    )
-                )
+        # Store assistant response
+        self.messages.append({"role": "assistant", "content": parsed.raw_content})
 
-        if text_content:
-            self.conversation.append(Message(role="assistant", content=text_content))
-
-        return ClaudeResponse(
-            content=text_content,
-            tool_calls=tool_calls,
-            stop_reason=response.stop_reason,
-        )
+        return parsed
 
     def clear_conversation(self) -> None:
         """Clear the conversation history."""
-        self.conversation = []
+        self.messages = []

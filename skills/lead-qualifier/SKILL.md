@@ -1,0 +1,202 @@
+---
+name: lead-qualifier
+description: Score and qualify leads based on fit criteria, engagement signals, and buying readiness. Use when evaluating whether a lead is worth pursuing or prioritizing leads.
+license: MIT
+metadata:
+  author: sdr-agent
+  version: "1.0"
+  tags: qualification, scoring, prioritization, sales
+---
+
+# Lead Qualifier Skill
+
+This skill guides the evaluation and prioritization of sales leads.
+
+## Qualification Framework
+
+### BANT Criteria
+
+**Budget**
+- Do they have budget allocated?
+- What's their typical spend in this category?
+- Are they in a buying cycle?
+
+**Authority**
+- Is this person a decision maker?
+- Who else is involved in decisions?
+- What's the approval process?
+
+**Need**
+- Do they have a clear problem we solve?
+- How urgent is this problem?
+- What's the cost of not solving it?
+
+**Timeline**
+- When do they need a solution?
+- Are there forcing functions (contracts expiring, compliance deadlines)?
+- What's driving the timeline?
+
+### ICP (Ideal Customer Profile) Fit
+
+Score leads against your ICP criteria:
+
+| Criteria | Excellent (3) | Good (2) | Marginal (1) | Poor (0) |
+|----------|--------------|----------|--------------|----------|
+| Company Size | [Ideal range] | [Adjacent] | [Stretch] | [Outside target] |
+| Industry | [Target vertical] | [Adjacent] | [New territory] | [Poor fit] |
+| Tech Stack | [Perfect match] | [Compatible] | [Integration needed] | [Incompatible] |
+| Growth Stage | [Sweet spot] | [Close] | [Stretch] | [Mismatch] |
+| Geography | [Target region] | [Serviceable] | [Challenging] | [Cannot serve] |
+
+### Buying Signals
+
+**Strong Signals (High Priority)**
+- Requested pricing/demo
+- Responded to outreach positively
+- Actively evaluating solutions
+- Budget approved
+- Clear timeline stated
+- Executive sponsor identified
+
+**Medium Signals (Qualified)**
+- Engaged with content multiple times
+- Attending webinars/events
+- Job postings indicating need
+- Company growth/funding
+- Technology changes
+
+**Weak Signals (Nurture)**
+- Downloaded single asset
+- Single website visit
+- Cold list match
+- No engagement history
+
+## Lead Scoring Model
+
+### Demographic Score (0-50 points)
+
+| Factor | Points |
+|--------|--------|
+| Title matches buyer persona | 15 |
+| Company in target industry | 10 |
+| Company size in range | 10 |
+| Geography in target region | 5 |
+| Tech stack compatible | 10 |
+
+### Behavioral Score (0-50 points)
+
+| Action | Points |
+|--------|--------|
+| Requested demo | 20 |
+| Responded to email | 15 |
+| Visited pricing page | 10 |
+| Downloaded content | 5 |
+| Attended webinar | 10 |
+| Multiple website visits | 5 |
+| LinkedIn engagement | 5 |
+
+### Total Score Interpretation
+
+| Score Range | Priority | Action |
+|-------------|----------|--------|
+| 80-100 | Hot | Immediate outreach, escalate to AE |
+| 60-79 | Warm | Prioritized outreach sequence |
+| 40-59 | Qualified | Standard nurture sequence |
+| 20-39 | Marketing | Marketing nurture only |
+| 0-19 | Unqualified | Disqualify or long-term nurture |
+
+## Qualification Questions
+
+When engaging leads, gather information on:
+
+### Business Context
+- "What's prompting you to look at this now?"
+- "How are you handling [problem] today?"
+- "What would success look like?"
+
+### Decision Process
+- "Who else is involved in evaluating solutions?"
+- "What's your timeline for making a decision?"
+- "Do you have budget allocated for this?"
+
+### Requirements
+- "What are your must-haves vs. nice-to-haves?"
+- "What other solutions are you considering?"
+- "What would make you choose one solution over another?"
+
+## Disqualification Criteria
+
+Leads should be disqualified if:
+
+- **No fit**: Company clearly outside ICP
+- **No budget**: No possibility of funding
+- **No authority**: Contact cannot influence decision
+- **No need**: No clear problem or priority
+- **No timeline**: No foreseeable buying window
+- **Competition**: Already using competitor, happy with it
+- **Bad data**: Cannot verify company or contact
+
+## Output Format
+
+When qualifying a lead, provide:
+
+```markdown
+# Lead Qualification: [Company/Prospect]
+
+## Qualification Summary
+- **Overall Score**: [X]/100
+- **Priority**: [Hot/Warm/Qualified/Nurture/Disqualified]
+- **Recommendation**: [Specific action]
+
+## ICP Fit Analysis
+| Criteria | Score | Notes |
+|----------|-------|-------|
+| Company Size | X/3 | [Details] |
+| Industry | X/3 | [Details] |
+| Tech Stack | X/3 | [Details] |
+| Geography | X/3 | [Details] |
+
+## BANT Assessment
+- **Budget**: [Assessment]
+- **Authority**: [Assessment]
+- **Need**: [Assessment]
+- **Timeline**: [Assessment]
+
+## Buying Signals
+[List observed signals]
+
+## Concerns/Risks
+[Any red flags or concerns]
+
+## Recommended Next Steps
+1. [Action 1]
+2. [Action 2]
+3. [Action 3]
+```
+
+## Priority Matrix
+
+Use this matrix to prioritize your lead queue:
+
+```
+                    HIGH FIT
+                       |
+     NURTURE          |        HOT
+     (Future opp)     |        (Pursue now)
+                      |
+LOW ENGAGEMENT -------+------- HIGH ENGAGEMENT
+                      |
+     DISQUALIFY       |        QUALIFIED
+     (Poor fit)       |        (Active sequence)
+                      |
+                    LOW FIT
+```
+
+## Best Practices
+
+1. **Score objectively** - Use data, not gut feel
+2. **Update regularly** - Scores change as engagement happens
+3. **Document reasoning** - Note why you scored each factor
+4. **Review periodically** - Audit scoring accuracy
+5. **Disqualify quickly** - Don't waste time on poor fits
+6. **Prioritize ruthlessly** - Focus on highest-potential leads

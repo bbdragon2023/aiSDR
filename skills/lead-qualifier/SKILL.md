@@ -36,6 +36,41 @@ This skill guides the evaluation and prioritization of sales leads.
 - Are there forcing functions (contracts expiring, compliance deadlines)?
 - What's driving the timeline?
 
+### SPICED Framework (Winning by Design)
+
+SPICED is a diagnostic framework developed by [Winning by Design](https://winningbydesign.com) that helps you better diagnose prospects. Like a doctor, your prescribed solution should help them achieve their desired outcomes—solving the source of their pains, not just the symptoms.
+
+**Situation**
+- What is their current environment and context?
+- What facts and background information define their circumstances?
+- What systems, processes, or solutions are they using today?
+- What is their role and team structure?
+
+**Pain**
+- What specific challenges motivated them to seek a solution?
+- What problems are they experiencing with their current approach?
+- What's not working or causing friction?
+- Is this a symptom or the root cause?
+
+**Impact**
+- How does this pain affect their business outcomes?
+- What metrics or KPIs are being impacted?
+- What is the cost of inaction (time, money, opportunity)?
+- What value would solving this deliver?
+
+**Critical Event**
+- What is the deadline by which they need to achieve results?
+- What's driving this timeline (contract expiration, board meeting, compliance deadline)?
+- What happens if they miss this deadline?
+- Is there a compelling event creating urgency?
+
+**Decision**
+- Who is involved in the decision-making process?
+- What is their evaluation criteria?
+- What is the internal buying process?
+- Who else needs to be persuaded?
+- What factors will determine their final choice?
+
 ### ICP (Ideal Customer Profile) Fit
 
 Score leads against your ICP criteria:
@@ -161,6 +196,13 @@ When qualifying a lead, provide:
 - **Authority**: [Assessment]
 - **Need**: [Assessment]
 - **Timeline**: [Assessment]
+
+## SPICED Assessment
+- **Situation**: [Current environment and context]
+- **Pain**: [Core challenges and root causes]
+- **Impact**: [Business outcomes affected and cost of inaction]
+- **Critical Event**: [Timeline drivers and compelling events]
+- **Decision**: [Decision process, criteria, and stakeholders]
 
 ## Buying Signals
 [List observed signals]

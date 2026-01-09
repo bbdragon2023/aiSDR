@@ -2,7 +2,6 @@
 
 import subprocess
 import sys
-from pathlib import Path
 from typing import Any, Optional
 
 from tavily import TavilyClient
@@ -36,7 +35,10 @@ class SkillExecutor:
         max_results = tool_input.get("max_results", 5)
 
         if not self.tavily_client:
-            return "Error: Tavily API key not configured. Please set TAVILY_API_KEY in your environment."
+            return (
+                "Error: Tavily API key not configured. "
+                "Please set TAVILY_API_KEY in your environment."
+            )
 
         try:
             response = self.tavily_client.search(

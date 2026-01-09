@@ -1,6 +1,6 @@
 """Agent Skills modules."""
 
-from .loader import SkillLoader, Skill
 from .executor import SkillExecutor
+from .loader import Skill, SkillLoader
 
 __all__ = ["SkillLoader", "Skill", "SkillExecutor"]

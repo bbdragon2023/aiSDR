@@ -42,7 +42,10 @@ class ClaudeClient:
         return [
             {
                 "name": "web_search",
-                "description": "Search the web for information about a company, person, or topic. Use this to research prospects and companies.",
+                "description": (
+                    "Search the web for information about a company, person, or topic. "
+                    "Use this to research prospects and companies."
+                ),
                 "input_schema": {
                     "type": "object",
                     "properties": {
@@ -61,7 +64,10 @@ class ClaudeClient:
             },
             {
                 "name": "send_email",
-                "description": "Send an email to a prospect. Use this after composing a personalized email.",
+                "description": (
+                    "Send an email to a prospect. "
+                    "Use this after composing a personalized email."
+                ),
                 "input_schema": {
                     "type": "object",
                     "properties": {
@@ -87,7 +93,10 @@ class ClaudeClient:
             },
             {
                 "name": "read_skill",
-                "description": "Load the full instructions from an agent skill. Use this when you need detailed guidance on a specific task.",
+                "description": (
+                    "Load the full instructions from an agent skill. "
+                    "Use this when you need detailed guidance on a specific task."
+                ),
                 "input_schema": {
                     "type": "object",
                     "properties": {

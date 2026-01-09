@@ -14,28 +14,6 @@ This skill guides the evaluation and prioritization of sales leads.
 
 ## Qualification Framework
 
-### BANT Criteria
-
-**Budget**
-- Do they have budget allocated?
-- What's their typical spend in this category?
-- Are they in a buying cycle?
-
-**Authority**
-- Is this person a decision maker?
-- Who else is involved in decisions?
-- What's the approval process?
-
-**Need**
-- Do they have a clear problem we solve?
-- How urgent is this problem?
-- What's the cost of not solving it?
-
-**Timeline**
-- When do they need a solution?
-- Are there forcing functions (contracts expiring, compliance deadlines)?
-- What's driving the timeline?
-
 ### SPICED Framework (Winning by Design)
 
 SPICED is a diagnostic framework developed by [Winning by Design](https://winningbydesign.com) that helps you better diagnose prospects. Like a doctor, your prescribed solution should help them achieve their desired outcomes—solving the source of their pains, not just the symptoms.
@@ -190,12 +168,6 @@ When qualifying a lead, provide:
 | Industry | X/3 | [Details] |
 | Tech Stack | X/3 | [Details] |
 | Geography | X/3 | [Details] |
-
-## BANT Assessment
-- **Budget**: [Assessment]
-- **Authority**: [Assessment]
-- **Need**: [Assessment]
-- **Timeline**: [Assessment]
 
 ## SPICED Assessment
 - **Situation**: [Current environment and context]

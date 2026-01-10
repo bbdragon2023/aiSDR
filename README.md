@@ -59,6 +59,34 @@ uv run sdr-agent research --prospect "John Smith" --company "Acme Corp"
 uv run sdr-agent skills
 ```
 
+### Web Application
+
+The SDR Agent also includes a beautiful web interface with real-time streaming responses.
+
+#### Start the Backend
+
+```bash
+uv run sdr-web
+```
+
+The API server will start at http://localhost:5000
+
+#### Start the Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The web UI will be available at http://localhost:5173
+
+#### Features
+
+- **Chat Interface**: Interactive chat with the SDR agent, with real-time streaming responses
+- **Research Dashboard**: Research companies and prospects with visual results
+- **Skills Viewer**: Browse available skills and their instructions
+
 ## Configuration
 
 Create a `.env` file with the following variables:
@@ -108,17 +136,32 @@ See the [Agent Skills specification](https://agentskills.io/specification) for d
 ## Architecture
 
 ```
-src/sdr_agent/
-├── main.py           # CLI entry point
-├── agent.py          # Agent orchestrator
-├── config.py         # Configuration management
+src/sdr_agent/           # Core agent (CLI)
+├── main.py              # CLI entry point
+├── agent.py             # Agent orchestrator
+├── config.py            # Configuration management
 ├── llm/
-│   └── claude.py     # Claude API integration
+│   └── claude.py        # Claude API integration
 ├── skills/
-│   ├── loader.py     # Skill discovery & parsing
-│   └── executor.py   # Skill execution
+│   ├── loader.py        # Skill discovery & parsing
+│   └── executor.py      # Skill execution
 └── integrations/
-    └── email.py      # SMTP email client
+    └── email.py         # SMTP email client
+
+web/                     # Flask backend (Web API)
+├── app.py               # Flask application
+└── routes/
+    ├── chat.py          # Chat API with SSE streaming
+    ├── research.py      # Research endpoints
+    └── skills.py        # Skills endpoints
+
+frontend/                # React frontend
+├── src/
+│   ├── components/      # UI components
+│   ├── pages/           # Page components
+│   ├── hooks/           # Custom React hooks
+│   └── api/             # API client
+└── ...
 ```
 
 ## Development

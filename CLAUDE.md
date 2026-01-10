@@ -32,6 +32,15 @@ uv run ruff check .
 
 # Fix lint issues
 uv run ruff check . --fix
+
+# Run web backend
+uv run sdr-web
+
+# Run web frontend (in frontend/ directory)
+cd frontend && npm run dev
+
+# Build frontend
+cd frontend && npm run build
 ```
 
 ## Architecture
@@ -67,6 +76,19 @@ Tools are defined in `ClaudeClient._build_tools()`:
 - `web_search` - Tavily-powered web search for research
 - `send_email` - SMTP email sending (handled by SDRAgent, not SkillExecutor)
 - `read_skill` - Load full skill instructions at runtime
+
+### Web Application
+
+The web interface (`web/` + `frontend/`) provides:
+- **Flask Backend** (`web/app.py`) - REST API with SSE streaming for real-time responses
+- **React Frontend** (`frontend/`) - Modern UI with Tailwind CSS
+
+Web API routes in `web/routes/`:
+- `chat.py` - Chat with SSE streaming, session management
+- `research.py` - Company/prospect research with streaming
+- `skills.py` - List and get skill details
+
+The web layer imports and uses the core `SDRAgent` class, preserving CLI functionality.
 
 ## Configuration
 
